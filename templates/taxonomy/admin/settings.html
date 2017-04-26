@@ -1,0 +1,53 @@
+{% themeextends "admin/base_admin.html" %}
+{% load i18n %}
+{% block title %} Taxonomy {% endblock %}
+{% block heading %} Taxonomy Settings {% endblock heading %}
+
+{% block content %}
+<style>
+    .file_valid {
+        color: green;
+    }
+
+    .file_error {
+        color: red;
+    }
+</style>
+
+<div class="itemcontent">
+
+    <form action="{% url taxonomy:settings %}" method="POST" class="formmain">
+        {% csrf_token %}
+
+        <fieldset>
+
+            <h3><strong>Tag Fields</strong></h3>
+
+                
+            <table class="generictbl dataTable" id="videotagtable" aria-describedby="videotagtable_info">
+
+              <tbody>
+                {% for taxonomy_field in taxonomy_fields %}
+                <tr class="{% cycle row1,row2 %}">
+                    <td>{{taxonomy_field.fieldname}}</td>
+                    <td><a href="{% url taxonomy:remove_setting field_id=taxonomy_field.pk %}">Remove</a></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            {{ taxonomy_form }}
+            <ul>
+                <li class="mono">
+                    <input type="Submit"/>
+                </li>
+            </ul>
+        </fieldset>
+
+
+    </form>
+</div><!-- /itemcontent-->
+
+<script>
+
+</script>
+{% endblock content %}

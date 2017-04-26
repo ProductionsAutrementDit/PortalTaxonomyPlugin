@@ -1,0 +1,6 @@
+{% load i18n cache navbar %}
+
+{% permissionrequired _metadata_global_read %}
+    <li><a href="/taxonomy/" title="{% trans "Taxonomy" %}">{% trans "Taxonomy" %}</a></li>
+{% endpermissionrequired %}
+

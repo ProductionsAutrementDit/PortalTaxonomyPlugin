@@ -1,0 +1,36 @@
+{% themeextends "taxonomy/base_taxonomy.html" %}
+{% load i18n %}
+{% block title %}{% trans 'Taxonomy' %}{% endblock %}
+{% block heading %}<a href="{% url taxonomy:terms_list %}">{% trans "Taxonomy" %}</a>: Add new{% endblock heading %}
+{% block content %}
+
+<div class="itemcontent">
+
+    {% if form.errors %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <h3><strong>{{term.value}}</strong></h3>
+
+    <form method="post" action="{{ request.path }}">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Submit" />
+    </form>
+
+
+</div><!-- /itemcontent-->
+
+
+{% endblock content %}

@@ -1,0 +1,37 @@
+{% themeextends "taxonomy/base_taxonomy.html" %}
+{% load i18n %}
+{% block title %}{% trans 'Taxonomy' %}{% endblock %}
+{% block heading %}<a href="{% url taxonomy:terms_list %}">{% trans "Taxonomy" %}</a>{% endblock heading %}
+{% block content %}
+
+<style>
+  .select2-container-multi .select2-choices {
+    background: none;
+    border: none;
+  }
+</style>
+
+<div class="itemcontent">
+   
+    <h3><strong>Taxonomy</strong></h3>
+    <a href="{% url taxonomy:term_new %}" type="button" class="button button-navigator">Add new term</a>
+    <table class="generictbl dataTable" id="videotagtable" aria-describedby="videotagtable_info">
+      <thead>
+        <th>Term</th>
+        <th>Items</th>
+        <th></th>
+      <tbody>
+        {% for term in terms %}
+        <tr class="{master cycle row1,row2 %}">
+            <td><a href="{% url taxonomy:term_edit term_id=term.pk %}">{{term.value}}</a></td>
+            <td><a href="/search/?action=Search&searchquery=&metadatagroup=Film&display_podType=all{% for field in fields %}&{{field.fieldname}}_0={{term.value|urlencode}}&{{field.fieldname}}_1=tags{% endfor %}">{{term.items.count}}</a></td>
+            <td>{% if term.items.count = 0 %}<a href="{% url taxonomy:term_remove term_id=term.pk %}">Remove</a>{% endif %}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    
+</div><!-- /itemcontent-->
+
+
+{% endblock content %}
